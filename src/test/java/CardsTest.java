@@ -1,3 +1,5 @@
+import io.kutilj.cards.Dealer;
+import io.kutilj.cards.Deck;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -6,8 +8,8 @@ import org.testng.annotations.Test;
  */
 public class CardsTest {
 
-    Deck deck;
-    Dealer dealer;
+    private Deck deck;
+    private Dealer dealer;
 
     /**
      * Test setup method that initializes the deck and the dealer
@@ -16,7 +18,7 @@ public class CardsTest {
     public void setup() {
 
         deck = new Deck();
-        dealer = new Dealer();
+        dealer = new Dealer(deck);
 
     }
 
@@ -26,7 +28,7 @@ public class CardsTest {
     @Test
     public void testShuffle() {
 
-        dealer.shuffle(deck);
+        dealer.shuffle();
 
         // validate deck is shuffled
 
@@ -36,7 +38,7 @@ public class CardsTest {
      * Test method that attempts to deal cards to n players and then validate that each player has the correct amount of
      * cards
      */
-    @Test
+    @Test(dependsOnMethods = "testShuffle")
     public void testDeal() {
 
         dealer.deal(8);
