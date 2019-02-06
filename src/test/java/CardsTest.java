@@ -1,6 +1,9 @@
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+/**
+ * Simple class for testing the functionality of shuffling and dealing a deck of cards
+ */
 public class CardsTest {
 
     Deck deck;
