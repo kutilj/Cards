@@ -132,4 +132,21 @@ public class Card {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return name + " of " + suit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        if (value != card.value) return false;
+        if (!name.equals(card.name)) return false;
+        return suit.equals(card.suit);
+    }
+
 }

@@ -61,12 +61,21 @@ public class Deck {
     }
 
     /**
-     * Adds a Card to the Current Deck
+     * Adds a Card to the current Deck
      *
      * @param card The Card given to the Deck
      */
     public void addCard(Card card) {
         this.cards.add(card);
+    }
+
+    /**
+     * Removes a Card from the current Deck
+     *
+     * @param card The Card to be removed
+     */
+    public void removeCard(Card card) {
+        this.cards.remove(card);
     }
 
 }
