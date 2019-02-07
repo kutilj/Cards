@@ -77,13 +77,17 @@ public class Dealer {
      */
     public void shuffle() {
 
+        // randomly sort the deck of cards
         Collections.shuffle(deck.getCards());
 
+        // cut the shuffled deck in half
         List<Card> topOfDeck = new ArrayList<>(deck.getCards().subList(0, 26));
         List<Card> bottomOfDeck = new ArrayList<>(deck.getCards().subList(26, 52));
 
+        // clear the original deck
         deck.getCards().clear();
 
+        // add back the bottom of the original deck first and then top of the original deck second
         deck.getCards().addAll(bottomOfDeck);
         deck.getCards().addAll(topOfDeck);
 
@@ -96,6 +100,10 @@ public class Dealer {
      * @param numCards The number of Cards to be dealt to each Player
      */
     public void deal(List<Player> players, int numCards) {
+
+        if (players.size() * numCards > deck.getCards().size()) {
+            throw new IllegalArgumentException("The given number of players and cards to deal is greater than the size of the deck");
+        }
 
         IntStream.range(0, numCards)
                 .mapToObj(i -> players.stream())

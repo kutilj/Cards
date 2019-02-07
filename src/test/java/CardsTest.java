@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -82,8 +83,23 @@ public class CardsTest {
         dealer.shuffle();
         dealer.deal(players, 5);
 
-        // validate all players received cards
         players.forEach(System.out::println);
+
+        // validate all players received cards by iterating through the hands of the players and checking the deck if it exists
+
+
+    }
+
+    /**
+     * Tests that the deal method for the Dealer throws an IllegalArgumentException when a bad deal is given
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadDeal() {
+
+        List<Player> players = createPlayers(10);
+
+        dealer.shuffle();
+        dealer.deal(players, 6);
 
     }
 
@@ -157,7 +173,25 @@ public class CardsTest {
     }
 
     private List<Player> createPlayers(int numPlayers) {
-        return new ArrayList() {{ add(new Player("Jeremy"));}};
+
+        String[] names = {"Classie", "Domenic", "Yelena", "Stephnie", "Emmanuel", "Vada", "Lonna", "Kristi", "Louella",
+                "Luigi", "Brenda", "Reda", "Thad", "Penelope", "Lajuana", "Irmgard", "Lore", "Randell", "Latesha", "Arturo",
+                "Rivka", "Viola", "Bradly", "Margo", "Zoe", "Laure", "Livia", "Dwain", "Olen", "Lawrence", "Angella", "Denisse",
+                "Dalene", "Garnet", "Ronda", "Mina", "Delfina", "Lane", "Norbert", "Huong", "Suzann", "Alphonse", "Rea",
+                "Julene", "Garry", "Cristin", "Debra", "Sybil", "Ouida", "Roselyn", "Errol", "Paulene", "Alisia", "Rene",
+                "Sanjuana", "Sherri", "Erlinda", "Buford", "Abel", "Cherrie", "Fairy", "Lenore", "Merrilee", "Christin",
+                "Krystina", "Pennie", "Deadra", "Yolonda", "Wilmer", "Daniella", "Vashti", "Nannette", "Jada", "Keisha", "Rubin",
+                "Michiko", "Francine", "Cindi", "Christa", "Hee", "Rosemary", "Helene", "Marcela", "Inell", "Katrice", "Bev",
+                "Berneice", "Migdalia", "Dirk", "Filiberto", "Kimberly", "Jaclyn", "Marcelina", "Patience", "Cheri", "Gena",
+                "Cheryle", "Drew", "Clorinda", "Juanita"};
+
+        List<Player> players = new ArrayList<>();
+
+        for (int i = 0; i < numPlayers; i++) {
+            players.add(new Player(names[(new Random().nextInt(names.length - 1))]));
+        }
+
+        return players;
     }
 
 }
