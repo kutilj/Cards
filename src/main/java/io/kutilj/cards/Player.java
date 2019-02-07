@@ -2,6 +2,7 @@ package io.kutilj.cards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A simple class representing a Player in a card game
@@ -117,4 +118,8 @@ public class Player {
         this.hand.add(card);
     }
 
+    @Override
+    public String toString() {
+        return name + " has a hand consisting of: " + hand.stream().map(Card::toString).collect(Collectors.joining(","));
+    }
 }
