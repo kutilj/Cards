@@ -1,6 +1,10 @@
 package io.kutilj.cards;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.IntStream;
 
 /**
  * A simple class representing a Dealer in a card game that can shuffle the deck and deal the deck
@@ -72,26 +76,37 @@ public class Dealer {
      * Shuffles the Deck the Dealer currently has
      */
     public void shuffle() {
-        shuffle(deck);
-    }
-
-    /**
-     * Shuffles the Deck passed in by random sort
-     *
-     * @param deck The Deck to be shuffled
-     */
-    public void shuffle(Deck deck) {
 
         Collections.shuffle(deck.getCards());
+
+        List<Card> topOfDeck = new ArrayList<>(deck.getCards().subList(0, 26));
+        List<Card> bottomOfDeck = new ArrayList<>(deck.getCards().subList(26, 52));
+
+        deck.getCards().clear();
+
+        deck.getCards().addAll(bottomOfDeck);
+        deck.getCards().addAll(topOfDeck);
 
     }
 
     /**
      * Deals Cards from the Deck to designated number of Players
      *
-     * @param numPlayers The number of Players to be dealt to
+     * @param players  A list of Players to be dealt Cards
+     * @param numCards The number of Cards to be dealt to each Player
      */
-    public void deal(int numPlayers) {
+    public void deal(List<Player> players, int numCards) {
+
+        IntStream.range(0, numCards)
+                .mapToObj(i -> players.stream())
+                .flatMap(Function.identity())
+                .forEach(
+                        player ->
+                        {
+                            player.addCard(deck.getCards().get(0));
+                            deck.getCards().remove(0);
+                        }
+                );
 
     }
 
