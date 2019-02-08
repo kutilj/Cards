@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Cards Test">
+
+    <test name="Cards Test">
+        <classes>
+            <class name="CardsTest"/>
+        </classes>
+    </test>
+
+</suite>
