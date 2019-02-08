@@ -72,20 +72,33 @@ public class CardsTest {
 
     /**
      * Test method that attempts to deal cards to n players and then validate that each player has the correct amount of
-     * cards
+     * cards and that they don't exist in the Dealer's Deck
      */
     @Test
     public void testDeal() {
 
         List<Player> players = createPlayers(10);
+        int cardsToBeDealt = 5;
 
         dealer.shuffle();
-        dealer.deal(players, 5);
+        dealer.deal(players, cardsToBeDealt);
 
         players.forEach(System.out::println);
 
         // validate all players received cards by iterating through the hands of the players and checking the deck if it exists
+        players.forEach(
+                player ->
+                        player.getHand().forEach(
+                                card ->
+                                        assertFalse(dealer.getDeck().getCards().contains(card))
+                        )
+        );
 
+        // validate all players received the correct amount of Cards
+        players.forEach(
+                player ->
+                        assertEquals(player.getHand().size(), cardsToBeDealt, "Player had more Cards than expected")
+        );
 
     }
 
