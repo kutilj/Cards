@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.*;
 
 /**
  * Simple class for testing the functionality of shuffling and dealing a deck of cards
@@ -21,7 +20,7 @@ public class CardsTest {
     private Dealer dealer;
 
     /**
-     * Test setup method that initializes the deck and the dealer
+     * Test setup method that initializes the dealer
      */
     @BeforeMethod()
     public void setup() {
@@ -103,26 +102,87 @@ public class CardsTest {
 
     }
 
+    /**
+     * Test that a Card can be added to a Deck and that a Dealer can add a Card to the Deck as well
+     */
     @Test
     public void testAddCardToDeck() {
 
-        dealer.shuffle();
-        dealer.addCard(new Card());
+        Card aceOfSpades = new Card("Ace", "Spades", 1);
+        Card aceOfClubs = new Card("Ace", "Clubs", 1);
+
+        Deck deck = new Deck();
+        deck.addCard(aceOfSpades);
+
+        assertTrue(deck.getCards().contains(aceOfSpades));
+
+        Dealer dealer = new Dealer(deck);
+        dealer.addCard(aceOfClubs);
+
+        assertTrue(deck.getCards().contains(aceOfClubs));
+
+        System.out.println(deck);
 
     }
 
-    @Test
+    /**
+     * Test adding a duplicate Card to a Deck throws an exception
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddDuplicateCardToDeck() {
 
+        Deck deck = new Deck();
+
+        Card cardOne = new Card("Ace", "Spades", 1);
+        Card cardTwo = new Card("Ace", "Hearts", 1);
+        Card cardOneDupe = new Card("Ace", "Spades", 1);
+
+        deck.addCard(cardOne);
+        deck.addCard(cardTwo);
+        deck.addCard(cardOneDupe);
+
+        System.out.println(deck);
+
     }
 
-    @Test
+    /**
+     * Test adding a Card to a full Deck throws an exception
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testAddCardToFullDeck() {
 
+        Deck deck = createFullDeck();
+        deck.addCard(new Card("Joker", "Joker", 0));
+
     }
 
+    /**
+     * Test removing a Card from a Deck
+     */
     @Test
     public void testRemoveCard() {
+
+        Deck deck = createFullDeck();
+
+        Card card = deck.getCards().get(0);
+
+        deck.removeCard(card);
+
+        assertFalse(deck.getCards().contains(card), "The Deck still contains this Card: " + card);
+
+    }
+
+    /**
+     * Test removing a nonexistent Card from the Deck throws an exception
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testRemoveCardNonexistent() {
+
+        Deck deck = new Deck();
+
+        Card card = new Card("Ace", "Spades", 1);
+
+        deck.removeCard(card);
 
     }
 
@@ -264,6 +324,12 @@ public class CardsTest {
 
     }
 
+    /**
+     * Test helper method for creating a list of Players
+     *
+     * @param numPlayers The number of desired Players
+     * @return Returns a List of random Players
+     */
     private List<Player> createPlayers(int numPlayers) {
 
         String[] names = {"Classie", "Domenic", "Yelena", "Stephnie", "Emmanuel", "Vada", "Lonna", "Kristi", "Louella",
